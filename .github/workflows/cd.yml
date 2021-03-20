@@ -1,0 +1,72 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - development
+      - staging
+      - production
+
+jobs:
+  docker:
+    name: Docker
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login
+        run: echo "${{ secrets.SERVICE_ACCOUNT_KEY }}" | base64 --decode | docker login -u _json_key --password-stdin gcr.io
+
+      - name: Build, tag, and push image for development environment
+        if: ${{ github.ref == 'refs/heads/development' }}
+        run: |
+          docker build --target=cd --tag=client:cd .
+          docker tag client:cd gcr.io/"${{ secrets.PROJECT_ID }}"/client:development
+          docker push gcr.io/"${{ secrets.PROJECT_ID }}"/client:development
+
+      - name: Pull, re-tag, and push image for staging environment
+        if: ${{ github.ref == 'refs/heads/staging' }}
+        run: |
+          docker pull gcr.io/"${{ secrets.PROJECT_ID }}"/client:development
+          docker tag gcr.io/"${{ secrets.PROJECT_ID }}"/client:development gcr.io/"${{ secrets.PROJECT_ID }}"/client:staging
+          docker push gcr.io/"${{ secrets.PROJECT_ID }}"/client:staging
+
+      - name: Pull, re-tag, and push image for production environment
+        if: ${{ github.ref == 'refs/heads/production' }}
+        run: |
+          docker pull gcr.io/"${{ secrets.PROJECT_ID }}"/client:staging
+          docker tag gcr.io/"${{ secrets.PROJECT_ID }}"/client:staging gcr.io/"${{ secrets.PROJECT_ID }}"/client:production
+          docker push gcr.io/"${{ secrets.PROJECT_ID }}"/client:production
+
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    needs: [docker]
+    defaults:
+      run:
+        working-directory: infrastructure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup enviornment variables
+        run: |
+          echo ::set-env name=TF_WORKSPACE::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')
+          echo ::set-env name=TF_IN_AUTOMATION::true
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.0
+          cli_config_credentials_hostname: src.terraform.io
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API_TOKEN }}
+
+      - name: Init
+        run: terraform init -backend-config="organization=${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}"
+
+      - name: Apply
+        run: terraform apply -auto-approve

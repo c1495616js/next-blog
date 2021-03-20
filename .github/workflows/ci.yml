@@ -1,0 +1,88 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - development
+      - staging
+      - production
+
+jobs:
+  docker:
+    name: Docker
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test
+        run: |
+          docker build --target=ci --tag=client:ci .
+          docker run client:ci
+
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infrastructure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup enviornment variables
+        run: |
+          echo ::set-env name=TF_WORKSPACE::${{ github.event.pull_request.base.ref }}
+          echo ::set-env name=TF_IN_AUTOMATION::true
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.0
+          cli_config_credentials_hostname: src.terraform.io
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API_TOKEN }}
+
+      - name: Format
+        id: fmt
+        continue-on-error: true
+        run: terraform fmt
+
+      - name: Init
+        id: init
+        run: terraform init -backend-config="organization=${{ secrets.TERRAFORM_CLOUD_ORGANIZATION }}"
+
+      - name: Validate
+        id: validate
+        run: terraform validate
+
+      - name: Plan
+        id: plan
+        continue-on-error: true
+        run: terraform plan -no-color
+
+      - uses: actions/github-script@0.9.0
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌 \`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙ \`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖 \`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖 \`${{ steps.plan.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`${process.env.PLAN}\`\`\`
+
+            </details>`;
+
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })

@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Account page matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="root"
+  >
+    <div
+      class="root undefined"
+    >
+      <button>
+        Simulate Logout
+      </button>
+      <a
+        href="/account"
+      >
+        Account
+      </a>
+    </div>
+    <main
+      class="main root"
+    >
+      <p>
+        My Account
+      </p>
+      <ul>
+        <li>
+          Email: foo.bar@baz.com
+        </li>
+        <li>
+          Display name: Foo Bar Baz
+        </li>
+        <li>
+          Date of Birth: 1990/01/01
+        </li>
+      </ul>
+    </main>
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,25 @@
+version: "3.7"
+
+####################### Services Definition #######################
+services:
+  client:
+    image: client:local
+    container_name: client
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: local
+    volumes:
+      - "./:/usr/src/src"
+      - "/usr/src/src/node_modules"
+    ports:
+      - 3000:3000
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
+    networks:
+      - default
+
+####################### Networks Definition #######################
+networks:
+  default:
+    driver: bridge
