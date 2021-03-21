@@ -1,25 +1,88 @@
-import Head from 'next/head'
-export default function Home() {
+import Link from '@/components/Link';
+import { PageSeo } from '@/components/SEO';
+import Tag from '@/components/Tag';
+import siteMetadata from '@/data/siteMetadata.json';
+import { getAllFilesFrontMatter } from '@/lib/mdx';
+
+const MAX_DISPLAY = 5;
+const postDateTemplate = { year: 'numeric', month: 'long', day: 'numeric' };
+
+export async function getStaticProps() {
+  const posts = await getAllFilesFrontMatter('blog');
+  return { props: { posts } };
+}
+
+export default function Home({ posts }) {
   return (
-    <div className="flex justify-center dark:bg-black">
-      <Head>
-        <title>Next.js Boilerplate</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="flex h-screen justify-center items-center">
-        <div className="container mx-auto">
-          <div className="p-6 max-w-sm mx-auto bg-white dark:bg-black rounded-xl shadow-md flex items-center space-x-4">
-            <div className="flex-shrink-0">
-              <img className="h-18 w-36" src="https://miro.medium.com/max/930/1*uKcXMiwIIUy4xkgtEto6kA.png" alt="ChitChat Logo" />
-            </div>
-            <div>
-              <div className="text-xl font-medium dark:text-white">Next.js Boilerplate</div>
-              <p className="text-gray-600 dark:text-gray-300">Author: Jerry Wang</p>
-            </div>
-          </div>
+    <>
+      <PageSeo title={siteMetadata.title} description={siteMetadata.description} url={siteMetadata.siteUrl} />
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="pt-6 pb-8 space-y-2 md:space-y-5">
+          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+            Latest
+          </h1>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">{siteMetadata.description}</p>
         </div>
+        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+          {!posts.length && 'No posts found.'}
+          {posts.slice(0, MAX_DISPLAY).map((frontMatter) => {
+            const { slug, date, title, summary, tags } = frontMatter;
+            return (
+              <li key={slug} className="py-12">
+                <article>
+                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:space-y-0 xl:items-baseline">
+                    <dl>
+                      <dt className="sr-only">Published on</dt>
+                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                        <time dateTime={date}>
+                          {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
+                        </time>
+                      </dd>
+                    </dl>
+                    <div className="space-y-5 xl:col-span-3">
+                      <div className="space-y-6">
+                        <div>
+                          <h2 className="text-2xl font-bold leading-8 tracking-tight">
+                            <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
+                              {title}
+                            </Link>
+                          </h2>
+                          <div className="flex flex-wrap">
+                            {tags.map((tag) => (
+                              <Tag key={tag} text={tag} />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="prose text-gray-500 max-w-none dark:text-gray-400">{summary}</div>
+                      </div>
+                      <div className="text-base font-medium leading-6">
+                        <Link
+                          href={`/blog/${slug}`}
+                          className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
+                          aria-label={`Read "${title}"`}
+                        >
+                          Read more &rarr;
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            );
+          })}
+        </ul>
       </div>
-    </div>
-  )
+      {posts.length > MAX_DISPLAY && (
+        <div className="flex justify-end text-base font-medium leading-6">
+          <Link
+            href="/blog"
+            className="text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
+            aria-label="all posts"
+          >
+            All Posts &rarr;
+          </Link>
+        </div>
+      )}
+    </>
+  );
 }

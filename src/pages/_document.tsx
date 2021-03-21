@@ -29,7 +29,6 @@ export default class extends _Document<DocumentProps> {
           <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
           <link rel="icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/logo192.png" />
-          <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
           <Main />
