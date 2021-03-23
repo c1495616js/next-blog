@@ -6,7 +6,8 @@
     "start": "next-remote-watch ./src/data",
     "dev": "next dev",
     "build": "next build",
-    "serve": "next start"
+    "serve": "next start",
+    "export": "next export"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "0.6.0",
