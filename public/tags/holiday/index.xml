@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Blog</title>
+      <link>https://tailwind-nextjs-starter-blog.vercel.app/blog</link>
+      <description>Welcome to my Blog, I am a full-stack developer.</description>
+      <language>en-us</language>
+      <managingEditor>c1495616@gmail.com (Jerry Wang)</managingEditor>
+      <webMaster>c1495616@gmail.com (Jerry Wang)</webMaster>
+      <lastBuildDate>Sat, 15 Jul 2017 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/tags/holiday/index.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/pictures-of-canada</guid>
+    <title>O Canada</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/pictures-of-canada</link>
+    <description>The scenic lands of Canada featuring maple leaves, snow-capped mountains, turquoise lakes and Toronto. Take in the sights in this photo gallery exhibition and see how easy it is to replicate with some MDX magic and tailwind classes.</description>
+    <pubDate>Sat, 15 Jul 2017 00:00:00 GMT</pubDate>
+    <author>c1495616@gmail.com (Jerry Wang)</author>
+    <category>holiday</category><category>canada</category><category>images</category>
+  </item>
+
+    </channel>
+  </rss>

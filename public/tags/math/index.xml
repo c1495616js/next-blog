@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Blog</title>
+      <link>https://tailwind-nextjs-starter-blog.vercel.app/blog</link>
+      <description>Welcome to my Blog, I am a full-stack developer.</description>
+      <language>en-us</language>
+      <managingEditor>c1495616@gmail.com (Jerry Wang)</managingEditor>
+      <webMaster>c1495616@gmail.com (Jerry Wang)</webMaster>
+      <lastBuildDate>Sat, 16 Nov 2019 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/tags/math/index.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/deriving-ols-estimator</guid>
+    <title>Deriving the OLS Estimator</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/deriving-ols-estimator</link>
+    <description>How to derive the OLS Estimator with matrix notation and a tour of math typesetting using markdown with the help of KaTeX.</description>
+    <pubDate>Sat, 16 Nov 2019 00:00:00 GMT</pubDate>
+    <author>c1495616@gmail.com (Jerry Wang)</author>
+    <category>next js</category><category>math</category><category>ols</category>
+  </item>
+
+    </channel>
+  </rss>

@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>Blog</title>
+      <link>https://tailwind-nextjs-starter-blog.vercel.app/blog</link>
+      <description>Welcome to my Blog, I am a full-stack developer.</description>
+      <language>en-us</language>
+      <managingEditor>c1495616@gmail.com (Jerry Wang)</managingEditor>
+      <webMaster>c1495616@gmail.com (Jerry Wang)</webMaster>
+      <lastBuildDate>Tue, 08 Mar 2016 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://tailwind-nextjs-starter-blog.vercel.app/tags/markdown/index.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://tailwind-nextjs-starter-blog.vercel.app/blog/code-sample</guid>
+    <title>Sample .md file</title>
+    <link>https://tailwind-nextjs-starter-blog.vercel.app/blog/code-sample</link>
+    <description>Example of a markdown file with code blocks and syntax highlighting</description>
+    <pubDate>Tue, 08 Mar 2016 00:00:00 GMT</pubDate>
+    <author>c1495616@gmail.com (Jerry Wang)</author>
+    <category>markdown</category><category>code</category><category>features</category>
+  </item>
+
+    </channel>
+  </rss>

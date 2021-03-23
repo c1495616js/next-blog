@@ -95,8 +95,9 @@ export const BlogSeo = ({ title, summary, date, lastmod, url, tags, images = [] 
         dateModified={publishedAt}
         datePublished={modifiedAt}
         description={summary}
-        images={featuredImages}
+        images={featuredImages.map(({url}) => url)}
         publisherName={siteMetadata.author}
+        publisherLogo={siteMetadata.image}
         title={title}
         url={url}
       />

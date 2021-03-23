@@ -1,7 +1,7 @@
 import React from 'react';
 import _Error, { ErrorProps } from 'next/error';
 import { NextPageContext } from 'next';
-import { Page, Error } from '@/components';
+import { Error } from '@/components';
 
 export default class extends _Error<ErrorProps> {
   static async getInitialProps({ res, err }: NextPageContext): Promise<ErrorProps> {
@@ -12,13 +12,13 @@ export default class extends _Error<ErrorProps> {
   render(): React.ReactElement {
     const { statusCode } = this.props;
     return (
-      <Page title={`NextJS Boilerplate | ${statusCode || 'Unexpected error'}`} description="Unexpected error page">
-        <Error>
-          {statusCode
-            ? `${statusCode} - An unexpected error occurred on the server`
-            : 'An unexpected error occurred on the client'}
-        </Error>
-      </Page>
+      // <Page title={`NextJS Boilerplate | ${statusCode || 'Unexpected error'}`} description="Unexpected error page">
+      <Error>
+        {statusCode
+          ? `${statusCode} - An unexpected error occurred on the server`
+          : 'An unexpected error occurred on the client'}
+      </Error>
+      // </Page>
     );
   }
 }

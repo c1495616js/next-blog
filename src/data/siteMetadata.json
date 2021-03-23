@@ -1,8 +1,8 @@
 {
-  "title": "Jerry Wang",
+  "title": "Blog",
   "author": "Jerry Wang",
-  "headerTitle": "TailwindBlog",
-  "description": "A blog created with Next.js and Tailwind.css",
+  "headerTitle": "Jerry Wang",
+  "description": "Welcome to my Blog, I am a full-stack developer.",
   "language": "en-us",
   "siteUrl": "https://tailwind-nextjs-starter-blog.vercel.app",
   "siteRepo": "https://github.com/timlrx/tailwind-nextjs-starter-blog",

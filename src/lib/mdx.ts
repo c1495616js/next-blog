@@ -1,14 +1,14 @@
-import fs from 'fs'
-import matter from 'gray-matter'
-import visit from 'unist-util-visit'
-import path from 'path'
-import readingTime from 'reading-time'
-import renderToString from 'next-mdx-remote/render-to-string'
+import fs from 'fs';
+import matter from 'gray-matter';
+import visit from 'unist-util-visit';
+import path from 'path';
+import readingTime from 'reading-time';
+import renderToString from 'next-mdx-remote/render-to-string';
 
-import MDXComponents from '@/components/MDXComponent'
+import MDXComponents from '@/components/MDXComponent';
 const imgToJsx = require('./img-to-jsx');
 
-const root = process.cwd()
+const root = process.cwd();
 
 const tokenClassNames = {
   tag: 'text-code-red',
@@ -22,30 +22,28 @@ const tokenClassNames = {
   function: 'text-code-blue',
   boolean: 'text-code-red',
   comment: 'text-gray-400 italic',
-}
+};
 
 export async function getFiles(type) {
-  return fs.readdirSync(path.join(root, 'data', type))
+  return fs.readdirSync(path.join(root, 'src/data', type));
 }
 
 export function formatSlug(slug) {
-  return slug.replace(/\.(mdx|md)/, '')
+  return slug.replace(/\.(mdx|md)/, '');
 }
 
 export function dateSortDesc(a, b) {
-  if (a > b) return -1
-  if (a < b) return 1
-  return 0
+  if (a > b) return -1;
+  if (a < b) return 1;
+  return 0;
 }
 
 export async function getFileBySlug(type, slug) {
-  const mdxPath = path.join(root, 'data', type, `${slug}.mdx`)
-  const mdPath = path.join(root, 'data', type, `${slug}.md`)
-  const source = fs.existsSync(mdxPath)
-    ? fs.readFileSync(mdxPath, 'utf8')
-    : fs.readFileSync(mdPath, 'utf8')
+  const mdxPath = path.join(root, 'src/data', type, `${slug}.mdx`);
+  const mdPath = path.join(root, 'src/data', type, `${slug}.md`);
+  const source = fs.existsSync(mdxPath) ? fs.readFileSync(mdxPath, 'utf8') : fs.readFileSync(mdPath, 'utf8');
 
-  const { data, content } = matter(source)
+  const { data, content } = matter(source);
   const mdxSource = await renderToString(content, {
     components: MDXComponents,
     mdxOptions: {
@@ -56,23 +54,22 @@ export async function getFileBySlug(type, slug) {
         require('remark-math'),
         imgToJsx,
       ],
-      inlineNotes: true,
       rehypePlugins: [
         require('rehype-katex'),
         require('@mapbox/rehype-prism'),
         () => {
           return (tree) => {
-            visit(tree, 'element', (node, index, parent) => {
-              let [token, type] = node.properties.className || []
+            visit(tree, 'element', (node: any, index, parent) => {
+              let [token, type] = node.properties.className || [];
               if (token === 'token') {
-                node.properties.className = [tokenClassNames[type]]
+                node.properties.className = [tokenClassNames[type]];
               }
-            })
-          }
+            });
+          };
         },
       ],
     },
-  })
+  });
 
   return {
     mdxSource,
@@ -83,21 +80,30 @@ export async function getFileBySlug(type, slug) {
       fileName: fs.existsSync(mdxPath) ? `${slug}.mdx` : `${slug}.md`,
       ...data,
     },
-  }
+  };
 }
 
 export async function getAllFilesFrontMatter(type) {
-  const files = fs.readdirSync(path.join(root, 'src/data', type))
+  const files = fs.readdirSync(path.join(root, 'src/data', type));
 
-  const allFrontMatter = []
+  const allFrontMatter = [];
+
+  const exts = ['.md', '.mdx'];
 
   files.forEach((file) => {
-    const source = fs.readFileSync(path.join(root, 'src/data', type, file), 'utf8')
-    const { data } = matter(source)
-    if (data.draft !== true) {
-      allFrontMatter.push({ ...data, slug: formatSlug(file) })
+    //if not file
+    if (!exts.includes(path.extname(file).toLowerCase())) {
+      const dir = fs.readdirSync(path.join(root, 'src/data', type, file));
+      const md = dir.find((file) => exts.includes(path.extname(file).toLowerCase()));
+      file = path.join(file, md);
     }
-  })
 
-  return allFrontMatter.sort((a, b) => dateSortDesc(a.date, b.date))
+    const source = fs.readFileSync(path.join(root, 'src/data', type, file), 'utf8');
+    const { data } = matter(source);
+    if (data.draft !== true) {
+      allFrontMatter.push({ ...data, slug: formatSlug(file) });
+    }
+  });
+  console.log(allFrontMatter);
+  return allFrontMatter.sort((a, b) => dateSortDesc(a.date, b.date));
 }
