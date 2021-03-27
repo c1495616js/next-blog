@@ -5,7 +5,8 @@
   "scripts": {
     "start": "next-remote-watch ./src/data",
     "dev": "next dev",
-    "build": "next build && node ./scripts/generate-sitemap",
+    "build": "next build",
+    "build:local": "npm run build && node ./scripts/generate-sitemap",
     "serve": "next start",
     "export": "next export"
   },
