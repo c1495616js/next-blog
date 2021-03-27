@@ -104,6 +104,6 @@ export async function getAllFilesFrontMatter(type) {
       allFrontMatter.push({ ...data, slug: formatSlug(file) });
     }
   });
-  console.log(allFrontMatter);
+
   return allFrontMatter.sort((a, b) => dateSortDesc(a.date, b.date));
 }
