@@ -1,0 +1,18 @@
+---
+title: React Learning
+date: '2021-07-25'
+description: Learning React
+tags: ['react']
+---
+
+## My collection of learning React.js
+
+## Life Cycle
+- [Life Cycle Visual Demo](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
+- [Tutorial](https://blog.logrocket.com/react-lifecycle-methods-tutorial-examples)
+
+### `getDerivedStateFromProps`
+
+- [ref](https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html)
+
+- exists for only one purpose: It enables a component to update its internal state as the result of **changes in props**.
