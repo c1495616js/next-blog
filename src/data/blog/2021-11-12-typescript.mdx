@@ -5,6 +5,9 @@ description: Learning React w/ typescript
 tags: ['react', 'typescript']
 ---
 
+This is all credit to https://ithelp.ithome.com.tw/articles/10265514.
+Just the summarize from this excellent article.
+
 ## Generics
 
 - Applied in `function`, `type`.
@@ -50,6 +53,55 @@ type Person<T> = {
   age: T;
 };
 ```
+
+## extends
+
+As `generics` is too arbitrary, like `any` type.
+We can have `Generic Contraints` to limit it.
+
+```ts
+function getFirstElement<T extends number>(arr: T[]): T {
+  const [firstElement] = arr;
+  return firstElement;
+}
+```
+
+```ts
+interface PersonName {
+  firstName: string;
+  lastName: string;
+}
+
+// T extends PersonName
+function logPersonName<T extends PersonName>(person: T) {
+  return `${person.firstName} ${person.lastName}`;
+}
+```
+
+## keyof
+- Only allowed on `type`
+```ts
+type Person = {
+  firsName: string;
+  lastName: string;
+};
+
+type PersonKey = keyof Person; // "firstName" | "lastName"
+```
+
+- `& string`, to limit the key to `string` type.
+
+```ts
+type PersonKey = keyof Person & string; 
+```
+
+- key of `any`
+
+```ts
+type KeyOfAny = keyof any; // type KeyOfAny = string | number | symbol
+```
+
+
 
 ## Refs
 
