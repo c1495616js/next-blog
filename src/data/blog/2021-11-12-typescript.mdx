@@ -1,0 +1,56 @@
+---
+title: 'React, Typescript'
+date: '2021-11-12'
+tags: ['react', 'typescript]
+---
+
+## Generics
+
+- Applied in `function`, `type`.
+
+### `function`
+
+#### Before:
+
+```ts
+function getFirstElementOfNumberArray(arr: number[]): number {
+    ...
+}
+
+function getFirsetElementOfStringArray(arr: string[]): string {
+    ...
+}
+```
+
+#### After:
+
+```ts
+function getFirstElement<T>(arr: T[]): T {
+    ...
+}
+```
+
+### `type`
+
+#### Before:
+```ts
+type PersonWithNumberAge = {
+  age: number;
+};
+
+type PersonWithStringAge = {
+  age: string;
+};
+```
+
+#### After: 
+```ts
+type Person<T> = {
+  age: T;
+};
+```
+
+## Refs
+
+- https://github.com/sindresorhus/type-fest
+- https://ithelp.ithome.com.tw/articles/10265514
