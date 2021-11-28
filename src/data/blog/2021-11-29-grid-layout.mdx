@@ -27,6 +27,35 @@ Let's see how to layout this kind of views.
 
 We will use `tailwindCSS` + `styled-components`
 
+### Idea
+
+- To centralize: We double the columns and use `col-span`.
+
+Keypoints: `sm:grid-cols-4`, `sm:col-span-2`.
+
+- To deal with the `bottom border`:
+
+Keypoints: 
+
+```typescript=
+`
+  &:nth-last-child(-n + 1) {
+    border: none;
+  }
+
+  @media (min-width: 640px) {
+    &:nth-last-child(-n + 2):nth-child(2n - 1) {
+      border: none;
+    }
+    &:nth-last-child(-n + 1):nth-child(2n - 1) {
+      grid-column-start: 2;
+    }
+  }
+`
+```
+
+### Codes
+
 - Layout Parent Component:
 ```typescript=
 <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
