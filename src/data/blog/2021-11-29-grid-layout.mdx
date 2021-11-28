@@ -37,8 +37,8 @@ Keypoints: `sm:grid-cols-4`, `sm:col-span-2`.
 
 Keypoints: 
 
-```typescript=
-`
+```
+
   &:nth-last-child(-n + 1) {
     border: none;
   }
@@ -51,13 +51,13 @@ Keypoints:
       grid-column-start: 2;
     }
   }
-`
+
 ```
 
 ### Codes
 
 - Layout Parent Component:
-```typescript=
+```
 <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
     {mockData.map((data) => (
         <Card {...data} /> 
@@ -67,7 +67,7 @@ Keypoints:
 
 - Card Child Component
 
-```typescript=
+```
 const Styles = styled.div.attrs({
   className: 'grid gap-2 border-b border-secondary-400 pb-4 sm:col-span-2',
 })`
