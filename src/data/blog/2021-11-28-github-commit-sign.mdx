@@ -21,6 +21,26 @@ tags: ['git', 'github']
 
 Just follow the ref above from step 1 to step 7.
 
+## Share across multiple devices
+
+Refs: [stackoverflow](https://security.stackexchange.com/questions/44470/what-is-the-best-way-to-manage-gpg-keys-across-multiple-devices/59083)
+
+I have macbook and also have a ubuntu desktop.
+
+I have gpg key on my macbook first, 
+so on the macbook: 
+
+```
+gpg -a --export-secret-key > secret.asc
+
+```
+
+Then on my ubuntu desktop:
+
+```
+gpg import secret.asc
+```
+
 ## Issues
 
 Not sure if it's because mine is M1 macbook.
