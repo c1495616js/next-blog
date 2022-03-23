@@ -1,0 +1,30 @@
+---
+title: Add tailwind to Remix
+date: '2022-03-23'
+description: Add tailwind to Remix
+tags: ['react', 'remix', 'tailwind']
+---
+
+## Idea
+
+Adding `tailwind` to Remix app
+
+## Steps
+
+Just follow all the steps on [tailwind site](https://tailwindcss.com/docs/guides/remix)
+
+but use the following in `package.json`:
+
+- `package.json`
+
+```json
+ "build": "npm run build:css && remix build",
+ "build:css": "tailwindcss -m -i ./app/styles/app.css -o app/styles/app.css",
+ "dev:css": "tailwindcss -o ./app/styles/app.css --watch",
+```
+
+## Refs
+
+- https://tailwindcss.com/docs/guides/remix
+
+
